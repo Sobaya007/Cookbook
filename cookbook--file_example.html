@@ -62,12 +62,14 @@
                 <div class="ddoc_summary">ファイル・パス操作についてまとめます。
 </div><div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
  テキストファイル操作の例です。
-<pre class="d_code notranslate"><span class="d_keyword">import</span> std.file;
+<pre class="d_code notranslate"><span class="d_comment">// 注: 以下の関数は他のmoduleの関数名と被っているためrename importしています。
+</span><span class="d_keyword">import</span> std.file : fwrite = write, fremove = remove, fappend = append;
+<span class="d_keyword">import</span> std.file;
 
 <span class="d_comment">// 指定した文字列でテキストファイルを作成します。
 </span>string textFile = <span class="d_string">"test.txt"</span>;
 string content = <span class="d_string">"Hello, world!"</span>;
-textFile.write(content);
+fwrite(textFile, content);
 
 <span class="d_comment">// ファイルの存在を確認します。
 </span><span class="d_keyword">assert</span>(textFile.exists);
@@ -78,26 +80,29 @@ textFile.write(content);
 
 <span class="d_comment">// ファイル名を変更します。
 </span>string newTextFile = <span class="d_string">"test2.txt"</span>;
-textFile.rename(newTextFile);
+rename(textFile, newTextFile);
 <span class="d_keyword">assert</span>(!textFile.exists);
 <span class="d_keyword">assert</span>(newTextFile.exists);
 
 <span class="d_comment">// ファイルに追記します。
 </span>string additionalContent = <span class="d_string">"This is D world!!!!"</span>;
-newTextFile.append(additionalContent);
+fappend(newTextFile, additionalContent);
 
 <span class="d_comment">// ファイルの中身を再度確認します。
 </span>string loadedContent2 = readText(newTextFile);
 <span class="d_keyword">assert</span>(loadedContent2 == content ~ additionalContent);
 
 <span class="d_comment">// ファイルを削除します。
-</span>remove(newTextFile);
+</span>fremove(newTextFile);
 <span class="d_keyword">assert</span>(!newTextFile.exists);
 </pre>
 </div>
 <div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
  ディレクトリ操作の例です。
-<pre class="d_code notranslate"><span class="d_keyword">import</span> std.algorithm : map, filter, sort;
+<pre class="d_code notranslate"><span class="d_comment">// 注: 以下の関数は他のmoduleの関数名と被っているためstatic importしています。
+</span><span class="d_keyword">import</span> std.file : fwrite = write;
+
+<span class="d_keyword">import</span> std.algorithm : map, filter, sort;
 <span class="d_keyword">import</span> std.array : array;
 <span class="d_keyword">import</span> std.file;
 <span class="d_keyword">import</span> std.path;
@@ -112,10 +117,10 @@ newTextFile.append(additionalContent);
 </span><span class="d_keyword">scope</span> (exit) rmdirRecurse(<span class="d_string">"test"</span>);
 
 <span class="d_comment">// ファイルをディレクトリ内に作成します。
-</span>write(<span class="d_string">"test/a.txt"</span>, <span class="d_string">"This is File A."</span>);
-write(<span class="d_string">"test/b.txt"</span>, <span class="d_string">"I am File B."</span>);
-write(<span class="d_string">"test/foo/c.txt"</span>, <span class="d_string">"My name is File C."</span>);
-write(<span class="d_string">"test/foo/bar/d.txt"</span>, <span class="d_string">"Please call me File D."</span>);
+</span>fwrite(<span class="d_string">"test/a.txt"</span>, <span class="d_string">"This is File A."</span>);
+fwrite(<span class="d_string">"test/b.txt"</span>, <span class="d_string">"I am File B."</span>);
+fwrite(<span class="d_string">"test/foo/c.txt"</span>, <span class="d_string">"My name is File C."</span>);
+fwrite(<span class="d_string">"test/foo/bar/d.txt"</span>, <span class="d_string">"Please call me File D."</span>);
 
 <span class="d_comment">// ディレクトリ内のファイルを列挙します。
 </span>string[] paths;
