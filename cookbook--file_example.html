@@ -108,6 +108,9 @@ newTextFile.append(additionalContent);
 <span class="d_comment">// ディレクトリを再帰的に作成します。
 </span>mkdirRecurse(<span class="d_string">"test/foo/bar"</span>);
 
+<span class="d_comment">// 処理の最後にディレクトリを再帰的に削除します。
+</span><span class="d_keyword">scope</span> (exit) rmdirRecurse(<span class="d_string">"test"</span>);
+
 <span class="d_comment">// ファイルをディレクトリ内に作成します。
 </span>write(<span class="d_string">"test/a.txt"</span>, <span class="d_string">"This is File A."</span>);
 write(<span class="d_string">"test/b.txt"</span>, <span class="d_string">"I am File B."</span>);
@@ -129,9 +132,6 @@ write(<span class="d_string">"test/foo/bar/d.txt"</span>, <span class="d_string"
 <span class="d_comment">//拡張子のみを抽出します。
 </span><span class="d_keyword">auto</span> extensions = filePaths.map!(extension).array;
 <span class="d_keyword">assert</span>(extensions == [<span class="d_string">".txt"</span>, <span class="d_string">".txt"</span>, <span class="d_string">".txt"</span>, <span class="d_string">".txt"</span>]);
-
-<span class="d_comment">// ディレクトリを再帰的に削除します。
-</span>rmdirRecurse(<span class="d_string">"test"</span>);
 </pre>
 </div>
 
