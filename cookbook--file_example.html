@@ -118,20 +118,31 @@ write(<span class="d_string">"test/foo/c.txt"</span>, <span class="d_string">"My
 write(<span class="d_string">"test/foo/bar/d.txt"</span>, <span class="d_string">"Please call me File D."</span>);
 
 <span class="d_comment">// ディレクトリ内のファイルを列挙します。
-</span><span class="d_keyword">auto</span> paths = dirEntries(<span class="d_string">"test"</span>, SpanMode.breadth).map!(d =&gt; d.name).array.sort.array;
+</span>string[] paths;
+<span class="d_keyword">foreach</span> (path; dirEntries(<span class="d_string">"test"</span>, SpanMode.breadth)) {
+    paths ~= path.name;
+}
+sort(paths);
 <span class="d_keyword">assert</span>(paths == [<span class="d_string">"test/a.txt"</span>, <span class="d_string">"test/b.txt"</span>, <span class="d_string">"test/foo"</span>, <span class="d_string">"test/foo/bar"</span>, <span class="d_string">"test/foo/bar/d.txt"</span>, <span class="d_string">"test/foo/c.txt"</span>]);
+</pre>
+</div>
+<div class="ddoc_examples"><span class="ddoc_examples_header">Examples:</span>
+ パスに関する操作の例です。
+<pre class="d_code notranslate"><span class="d_keyword">import</span> std.path;
 
-<span class="d_comment">// ファイルのみを抽出します。
-</span><span class="d_keyword">auto</span> filePaths = paths.filter!(isFile).array;
-<span class="d_keyword">assert</span>(filePaths == [<span class="d_string">"test/a.txt"</span>, <span class="d_string">"test/b.txt"</span>, <span class="d_string">"test/foo/bar/d.txt"</span>, <span class="d_string">"test/foo/c.txt"</span>]);
+string filePath = <span class="d_string">"test/foo/bar.txt"</span>;
 
 <span class="d_comment">// ファイル名のみを抽出します。
-</span><span class="d_keyword">auto</span> fileNames = filePaths.map!(baseName).array;
-<span class="d_keyword">assert</span>(fileNames == [<span class="d_string">"a.txt"</span>, <span class="d_string">"b.txt"</span>, <span class="d_string">"d.txt"</span>, <span class="d_string">"c.txt"</span>]);
+</span>string fileName = filePath.baseName;
+<span class="d_keyword">assert</span>(fileName == <span class="d_string">"bar.txt"</span>);
 
-<span class="d_comment">//拡張子のみを抽出します。
-</span><span class="d_keyword">auto</span> extensions = filePaths.map!(extension).array;
-<span class="d_keyword">assert</span>(extensions == [<span class="d_string">".txt"</span>, <span class="d_string">".txt"</span>, <span class="d_string">".txt"</span>, <span class="d_string">".txt"</span>]);
+<span class="d_comment">// ディレクトリ名を抽出します。
+</span>string fileDir = filePath.dirName;
+<span class="d_keyword">assert</span>(fileDir == <span class="d_string">"test/foo"</span>);
+
+<span class="d_comment">// 拡張子のみを抽出します。
+</span>string fileExtension = filePath.extension;
+<span class="d_keyword">assert</span>(fileExtension == <span class="d_string">".txt"</span>);
 </pre>
 </div>
 
